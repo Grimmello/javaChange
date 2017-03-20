@@ -11,9 +11,17 @@ public class App {
 
     get("/", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
-      model.put("template", "templates/CHANGEME.vtl");
+      model.put("template", "templates/form.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    get("/result", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      model.put("template", "templates/result.vtl");
+      ChangeMachine myMachine = new ChangeMachine();
+      String dollar = request.queryParams("dollar");
+      model.put("dollar", myMachine.makeChange(Float.parseFloat(dollar)));
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
   }
 }
